@@ -1,7 +1,7 @@
 name: Build and deploy ASP.NET Core app to Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: ASP_DOTNETCORE_PUBLISH_PROFILE
+  AZURE_WEBAPP_NAME: SSPCICDDEMO
   DOTNET_VERSION: '8.0.x'
 
 on:
