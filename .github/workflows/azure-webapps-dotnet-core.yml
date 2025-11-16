@@ -1,9 +1,8 @@
 name: Build and deploy ASP.NET Core app to Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: ASP_DOTNETCORE_PUBLISH_PROFILE     # Your Azure Web App name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'                        # Path of your project (root)
-  DOTNET_VERSION: '8.0.x'                               # .NET version
+  AZURE_WEBAPP_NAME: ASP_DOTNETCORE_PUBLISH_PROFILE
+  DOTNET_VERSION: '8.0.x'
 
 on:
   push:
@@ -25,44 +24,33 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Cache NuGet packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+      - name: Restore dependencies
+        run: dotnet restore
 
-      - name: Build project
+      - name: Build
         run: dotnet build --configuration Release
 
-      - name: Publish project
+      - name: Publish
         run: dotnet publish -c Release -o ./published
 
-      - name: Upload artifact for deployment
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: published-app
           path: ./published
 
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    permissions:
-      contents: none
     environment:
-      name: 'Development'
+      name: 'Production'
 
     steps:
-      - name: Download artifact from build job
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: published-app
-
-      - name: Azure Login with Publish Profile
-        uses: azure/login@v1
-        with:
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
