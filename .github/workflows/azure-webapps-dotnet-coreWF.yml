@@ -61,7 +61,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-           package:'./publish'
+          package : './publish'
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
