@@ -1,5 +1,3 @@
-name: Build and deploy ASP.Net Core app to an Azure Web App
-
 env:
   AZURE_WEBAPP_NAME: DemoWebSiteWithCICD
   AZURE_WEBAPP_PACKAGE_PATH: './publish'
@@ -13,10 +11,10 @@ on:
 permissions:
   contents: read
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
