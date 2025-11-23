@@ -51,5 +51,5 @@ jobs:
         with:
           app-name: 'DemoWebSiteWithCICD'
           slot-name: 'Production'
-          package: .
+          package: ./publish
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_02F4D6C07E474A0AA261FDFF3F052AA3 }}
